@@ -11,7 +11,7 @@ def set_figure_defaults():
     plt.rcParams['lines.linewidth'] = 2    # linewidth
     plt.rcParams['lines.markersize'] = 2   # marker size
 
-    plt.rcParams['axes.linewidth'] = 2     # linewidth
+    plt.rcParams['axes.linewidth'] = 1     # linewidth
     plt.rcParams['axes.labelsize'] = 11    # axes font size
     plt.rcParams['xtick.labelsize'] = 11   # x-tick font size
     plt.rcParams['ytick.labelsize'] = 11   # y-tick font size
@@ -342,7 +342,7 @@ for i in range(len(states_nominal) - 1):
     # h_values_nominal
     if h_values_nominal[i] < 0.005:
         path_color = 'red'
-        path_style = '--'  
+        path_style = '-'  
         if not label_unsafe_added:
             # ax.plot(x_segment, y_segment, z_segment, linestyle=path_style, color=path_color, linewidth=2, label='$k_{nom}$, unsafe')
             ax.plot(x_segment, y_segment, z_segment, linestyle=path_style, color=path_color, linewidth=2)
@@ -353,7 +353,7 @@ for i in range(len(states_nominal) - 1):
 
     else:
         path_color = 'green'
-        path_style = '--'  
+        path_style = '-'  
         if not label_safe_added:
             ax.plot(x_segment, y_segment, z_segment, linestyle=path_style, color=path_color, linewidth=2, label='$x, k_{nom}$')
             label_safe_added = True
@@ -399,15 +399,15 @@ fig_height = fig_width / 1.3
 fig = plt.figure(figsize=(fig_width, fig_height))
 
 plt.subplot(2, 2, 1)
-plt.plot(np.arange(timesteps) * dt, [c[0] for c in controls_filtered], label='$v$, ZOCBF', color='blue',)
-plt.plot(np.arange(timesteps) * dt, [c[0] for c in controls_nominal], label='$v, k_{nom}$', color='green')
+plt.step(np.arange(timesteps) * dt, [c[0] for c in controls_filtered], label='$v$, ZOCBF', color='blue',)
+plt.step(np.arange(timesteps) * dt, [c[0] for c in controls_nominal], label='$v, k_{nom}$', color='green')
 plt.xlabel('Time [s]')
 plt.ylabel('$v$')
 plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.3), ncol=2, fontsize=8)
 
 plt.subplot(2, 2, 2)
-plt.plot(np.arange(timesteps) * dt, [c[1] for c in controls_filtered], label='$\omega$, ZOCBF', color='blue',)
-plt.plot(np.arange(timesteps) * dt, [c[1] for c in controls_nominal], label='$\omega, k_{nom}$', color='green')
+plt.step(np.arange(timesteps) * dt, [c[1] for c in controls_filtered], label='$\omega$, ZOCBF', color='blue',)
+plt.step(np.arange(timesteps) * dt, [c[1] for c in controls_nominal], label='$\omega, k_{nom}$', color='green')
 plt.xlabel('Time [s]')
 plt.ylabel('$\omega$')
 plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.3), ncol=2, fontsize=8)

@@ -10,6 +10,26 @@ u_max = cp.Parameter(nonneg=True)
 P = cp.Parameter(nonneg=True)  
 u_des = cp.Parameter()    
 
+def set_figure_defaults():
+    plt.rcParams['lines.linewidth'] = 2    # linewidth
+    plt.rcParams['lines.markersize'] = 2   # marker size
+
+    plt.rcParams['axes.linewidth'] = 1.0     # linewidth
+    plt.rcParams['axes.labelsize'] = 11    # axes font size
+    plt.rcParams['xtick.labelsize'] = 11   # x-tick font size
+    plt.rcParams['ytick.labelsize'] = 11   # y-tick font size
+
+    plt.rcParams['text.usetex'] = True
+    plt.rcParams['font.size'] = 10          # size for text
+    plt.rcParams['legend.fontsize'] = 11    # legend font size
+    plt.rcParams['legend.title_fontsize'] = 11  # legend title font size
+
+    plt.rcParams['axes.formatter.use_locale'] = False
+    plt.rcParams['legend.handlelength'] = 1.2
+    plt.rcParams['xtick.direction'] = 'in'
+    plt.rcParams['ytick.direction'] = 'in'
+    plt.rcParams['text.latex.preamble'] = r'\usepackage{amsmath}'  # (if needed)
+
 # system dynamics wrt T
 def system_dynamics(x, u):
     A = np.array([[1, T.value], [0, 1]])
@@ -115,16 +135,16 @@ def simulate_system(x0, num_steps, constraint='h1'):
     return states, times, controls
 
 # parameters
-T.value = 0.1          # sampling time
-Gamma.value = 1 * T.value     # gamma for the class K-function, x * Gamma = gamma 
-Gamma2.value = 1 # second class-K for HOCBFs
-delta.value = 0.01    # safety margin
-u_max.value = 10    # minimum control input
-P.value = 10          # constant in h
-u_des.value = 0  # nominal contorl input
+T.value = 0.1          
+Gamma.value = 1.0 * T.value   # gamma for the class K-function, x * Gamma = gamma 
+Gamma2.value = 1.0            # second class-K for HOCBFs
+delta.value = 0.01            # safety margin
+u_max.value = 10              # minimum control input
+P.value = 10                  # constant in h
+u_des.value = 0               # nominal control input
 
-x0 = np.array([0, 2])  # x_0
-num_steps = int(15 / T.value)  # 10 seconds sim
+x0 = np.array([0, 2])         # x_0
+num_steps = int(15 / T.value)  
 
 # run for h1
 states_h1, times_h1, controls_h1 = simulate_system(x0, num_steps, constraint='h1')
@@ -138,71 +158,47 @@ states_h3, times_h3, controls_h3 = simulate_system(x0, num_steps, constraint='h3
 # run for h4 (higher-order CBF)
 states_h4, times_h4, controls_h4 = simulate_system(x0, num_steps, constraint='h4')
 
-# plots
-# Set the default line width and marker size
-plt.rcParams['lines.linewidth'] = 2    # Default line width
-plt.rcParams['lines.markersize'] = 5   # Default marker size
+# Plots
+set_figure_defaults()
 
-# Set the default axes properties
-plt.rcParams['axes.linewidth'] = 2     # Default axes line width
-plt.rcParams['axes.labelsize'] = 12    # Default axes font size
-plt.rcParams['xtick.labelsize'] = 10   # Default x-tick font size
-plt.rcParams['ytick.labelsize'] = 10   # Default y-tick font size
-
-# Set default text properties to use LaTeX interpreter
-plt.rcParams['text.usetex'] = True
-plt.rcParams['font.size'] = 10          # Default font size for text
-plt.rcParams['legend.fontsize'] = 11    # Default legend font size
-plt.rcParams['legend.title_fontsize'] = 10  # Default legend title font size
-
-# Use LaTeX for axis tick labels and legends
-plt.rcParams['axes.formatter.use_locale'] = False
-plt.rcParams['legend.handlelength'] = 1.5
-plt.rcParams['xtick.direction'] = 'in'
-plt.rcParams['ytick.direction'] = 'in'
-plt.rcParams['text.latex.preamble'] = r'\usepackage{amsmath}'  # Extra LaTeX packages (if needed)
-
-
-
-fig_width = 5.0
+fig_width = 4.5
 fig_height = fig_width / 1.3
+fig, axs = plt.subplots(2, 2, figsize=(fig_width, fig_height))
 
-plt.figure(figsize=(fig_width, fig_height))
-# plt.set_ylim([0, 20])
+axs[0, 0].plot(times_h1, states_h1[:, 0])
+axs[0, 0].plot(times_h2, states_h2[:, 0])
+axs[0, 0].plot(times_h3, states_h3[:, 0], linestyle='--')
+axs[0, 0].plot(times_h4, states_h4[:, 0], linestyle='--')
+axs[0, 0].set_xlabel('Time [s]')
+axs[0, 0].set_ylabel(r'$p$')
+axs[0, 0].set_xlim([0, 10])
 
-plt.subplot(2, 2, 1)
-plt.plot(times_h1, states_h1[:, 0], label=r'$h_1$')
-plt.plot(times_h2, states_h2[:, 0], label=r'$h_2$')
-plt.plot(times_h3, states_h3[:, 0], label=r'$h_1$', linestyle='--')
-plt.plot(times_h4, states_h4[:, 0], label=r'$h_2$', linestyle='--')
-plt.ylabel(r'$p$')
-plt.legend(loc='upper right')  
+axs[0, 1].plot(times_h1, states_h1[:, 1])
+axs[0, 1].plot(times_h2, states_h2[:, 1])
+axs[0, 1].plot(times_h3, states_h3[:, 1], linestyle='--')
+axs[0, 1].plot(times_h4, states_h4[:, 1], linestyle='--')
+axs[0, 1].set_xlabel('Time [s]')
+axs[0, 1].set_ylabel(r'$v$')
+axs[0, 1].set_xlim([0, 10])
 
-plt.subplot(2, 2, 2)
-plt.plot(times_h1, states_h1[:, 1], label=r'$h_1$')
-plt.plot(times_h2, states_h2[:, 1], label=r'$h_2$')
-plt.plot(times_h3, states_h3[:, 1], label=r'$h_1$', linestyle='--')
-plt.plot(times_h4, states_h4[:, 1], label=r'$h_2$', linestyle='--')
-plt.ylabel(r'$v$')
-plt.legend(loc='upper right')  
+axs[1, 0].plot(times_h1, [h1(x) for x in states_h1])
+axs[1, 0].plot(times_h2, [h2(x) for x in states_h2])
+axs[1, 0].plot(times_h3, [h1(x) for x in states_h3], linestyle='--')
+axs[1, 0].plot(times_h4, [h2(x) for x in states_h4], linestyle='--')
+axs[1, 0].set_xlabel('Time [s]')
+axs[1, 0].set_ylabel(r'$h_1, h_2$')
+axs[1, 0].set_xlim([0, 10])
 
-plt.subplot(2, 2, 3)
-plt.step(times_h1[:-1], controls_h1, label=r'$h_1$', where='post')
-plt.step(times_h2[:-1], controls_h2, label=r'$h_2$', where='post')
-plt.step(times_h3[:-1], controls_h3, label=r'$h_1$', where='post', linestyle='--')
-plt.step(times_h4[:-1], controls_h4, label=r'$h_2$', where='post', linestyle='--')
-plt.xlabel('Time [s]')
-plt.ylabel(r'$u$')
-plt.legend( loc='upper right')  
+axs[1, 1].step(times_h1[:-1], controls_h1, where='post')
+axs[1, 1].step(times_h2[:-1], controls_h2, where='post')
+axs[1, 1].step(times_h3[:-1], controls_h3, where='post', linestyle='--')
+axs[1, 1].step(times_h4[:-1], controls_h4, where='post', linestyle='--')
+axs[1, 1].set_xlabel('Time [s]')
+axs[1, 1].set_ylabel(r'$u_k$')
+axs[1, 1].set_xlim([0, 10])
 
-plt.subplot(2, 2, 4)
-plt.plot(times_h1, [h1(x) for x in states_h1], label=r'$h_1$')
-plt.plot(times_h2, [h2(x) for x in states_h2], label=r'$h_2$')
-plt.plot(times_h3, [h1(x) for x in states_h3], label=r'$h_1$', linestyle='--') 
-plt.plot(times_h4, [h2(x) for x in states_h4], label=r'$h_2$', linestyle='--')  
-plt.xlabel('Time [s]')
-plt.ylabel(r'$h(x)$')
-plt.legend(loc='upper right')  
+# legend for all subplots
+fig.legend([r'$h_1$, ZOCBF', r'$h_2$, ZOCBF', r'$h_1$, HOCBF', r'$h_2$, HOCBF'], loc='upper center', ncol=4, bbox_to_anchor=(0.5, 1.05), fontsize=9, handletextpad=0.2, labelspacing=0.2, borderpad=0.2)
 
 plt.tight_layout()
-plt.savefig('h_constraints.pdf', format='pdf', bbox_inches='tight')
+plt.savefig('h1h2_integrator.pdf', format='pdf', bbox_inches='tight')
