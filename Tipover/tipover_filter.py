@@ -307,7 +307,7 @@ initial_state = np.array([path[0][0], path[1][0], theta_initial]) # set initial 
 set_figure_defaults()
 
 fig_width = 4.5
-fig_height = fig_width / 1
+fig_height = fig_width / 1.25
 fig = plt.figure(figsize=(fig_width, fig_height))
 ax = fig.add_subplot(111, projection='3d')
 ax.grid(False)
@@ -344,7 +344,7 @@ for i in range(len(states_nominal) - 1):
         path_color = 'red'
         path_style = '-'  
         if not label_unsafe_added:
-            # ax.plot(x_segment, y_segment, z_segment, linestyle=path_style, color=path_color, linewidth=2, label='$k_{nom}$, unsafe')
+            # ax.plot(x_segment, y_segment, z_segment, linestyle=path_style, color=path_color, linewidth=2, label='$\mathbf{k_d}$, unsafe')
             ax.plot(x_segment, y_segment, z_segment, linestyle=path_style, color=path_color, linewidth=2)
 
             label_unsafe_added = True
@@ -355,7 +355,7 @@ for i in range(len(states_nominal) - 1):
         path_color = 'green'
         path_style = '-'  
         if not label_safe_added:
-            ax.plot(x_segment, y_segment, z_segment, linestyle=path_style, color=path_color, linewidth=2, label='$x, k_{nom}$')
+            ax.plot(x_segment, y_segment, z_segment, linestyle=path_style, color=path_color, linewidth=2, label='$x, \mathbf{k_d}$')
             label_safe_added = True
         else:
             ax.plot(x_segment, y_segment, z_segment, linestyle=path_style, color=path_color, linewidth=2)
@@ -387,7 +387,7 @@ ax.tick_params(axis='x', which='major', labelsize=9)  # x-tick font size
 ax.tick_params(axis='y', which='major', labelsize=9)  
 ax.tick_params(axis='z', which='major', labelsize=9) 
 
-ax.legend(loc='upper center', bbox_to_anchor=(0.5, 0.9), ncol=6, fontsize=9, handletextpad=0.2, labelspacing=0.2, borderpad=0.2)
+ax.legend(loc='upper center', bbox_to_anchor=(0.1, 0.8), ncol=1, fontsize=9, handletextpad=0.2, labelspacing=0.2, borderpad=0.2)
 
 plt.tight_layout()
 plt.savefig('terrainZOCBF.pdf', format='pdf', bbox_inches='tight')
@@ -395,30 +395,30 @@ plt.show()
 
 # Plot comparison of nominal and filtered control inputs
 fig_width = 5.0
-fig_height = fig_width / 1.3
+fig_height = fig_width / 1.2
 fig = plt.figure(figsize=(fig_width, fig_height))
 
 plt.subplot(2, 2, 1)
 plt.step(np.arange(timesteps) * dt, [c[0] for c in controls_filtered], label='$v$, ZOCBF', color='blue',)
-plt.step(np.arange(timesteps) * dt, [c[0] for c in controls_nominal], label='$v, k_{nom}$', color='green')
+plt.step(np.arange(timesteps) * dt, [c[0] for c in controls_nominal], label='$v, \mathbf{k_d}$', color='green')
 plt.xlabel('Time [s]')
 plt.ylabel('$v$')
-plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.3), ncol=2, fontsize=8)
+plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.25), ncol=2, fontsize=9)
 
 plt.subplot(2, 2, 2)
 plt.step(np.arange(timesteps) * dt, [c[1] for c in controls_filtered], label='$\omega$, ZOCBF', color='blue',)
-plt.step(np.arange(timesteps) * dt, [c[1] for c in controls_nominal], label='$\omega, k_{nom}$', color='green')
+plt.step(np.arange(timesteps) * dt, [c[1] for c in controls_nominal], label='$\omega, \mathbf{k_d}$', color='green')
 plt.xlabel('Time [s]')
 plt.ylabel('$\omega$')
-plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.3), ncol=2, fontsize=8)
+plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.25), ncol=2, fontsize=9)
 
 plt.subplot(2, 1, 2)
 plt.plot(np.arange(len(h_values)) * dt, h_values, label='$h$, ZOCBF', color='blue', linewidth=2)
-plt.plot(np.arange(len(h_values_nominal)) * dt, h_values_nominal, label='$h, k_{nom}$', color='green', linewidth=2)
+plt.plot(np.arange(len(h_values_nominal)) * dt, h_values_nominal, label='$h, \mathbf{k_d}$', color='green', linewidth=2)
 plt.xticks(np.arange(0, 21, 5))  
 plt.xlabel('Time [s]')
 plt.ylabel('$h(u, \phi)$')
-plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.3), ncol=2, fontsize=8)
+plt.legend(loc='upper center', bbox_to_anchor=(0.5, 1.25), ncol=2, fontsize=9)
 
 plt.tight_layout()
 plt.savefig('inputs_h.pdf', format='pdf', bbox_inches='tight')

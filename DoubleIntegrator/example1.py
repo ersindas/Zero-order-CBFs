@@ -11,18 +11,18 @@ P = cp.Parameter(nonneg=True)
 u_des = cp.Parameter()    
 
 def set_figure_defaults():
-    plt.rcParams['lines.linewidth'] = 2    # linewidth
-    plt.rcParams['lines.markersize'] = 2   # marker size
+    plt.rcParams['lines.linewidth'] = 2    
+    plt.rcParams['lines.markersize'] = 2  
 
-    plt.rcParams['axes.linewidth'] = 1.0     # linewidth
-    plt.rcParams['axes.labelsize'] = 11    # axes font size
-    plt.rcParams['xtick.labelsize'] = 11   # x-tick font size
-    plt.rcParams['ytick.labelsize'] = 11   # y-tick font size
+    plt.rcParams['axes.linewidth'] = 1.0     
+    plt.rcParams['axes.labelsize'] = 11   
+    plt.rcParams['xtick.labelsize'] = 11   
+    plt.rcParams['ytick.labelsize'] = 11   
 
     plt.rcParams['text.usetex'] = True
-    plt.rcParams['font.size'] = 10          # size for text
-    plt.rcParams['legend.fontsize'] = 11    # legend font size
-    plt.rcParams['legend.title_fontsize'] = 11  # legend title font size
+    plt.rcParams['font.size'] = 10          
+    plt.rcParams['legend.fontsize'] = 11   
+    plt.rcParams['legend.title_fontsize'] = 11 
 
     plt.rcParams['axes.formatter.use_locale'] = False
     plt.rcParams['legend.handlelength'] = 1.2
@@ -194,7 +194,7 @@ axs[1, 1].step(times_h2[:-1], controls_h2, where='post')
 axs[1, 1].step(times_h3[:-1], controls_h3, where='post', linestyle='--')
 axs[1, 1].step(times_h4[:-1], controls_h4, where='post', linestyle='--')
 axs[1, 1].set_xlabel('Time [s]')
-axs[1, 1].set_ylabel(r'$u_k$')
+axs[1, 1].set_ylabel(r'$u$')
 axs[1, 1].set_xlim([0, 10])
 
 # legend for all subplots
