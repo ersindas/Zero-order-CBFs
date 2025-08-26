@@ -1,9 +1,8 @@
-# Zero-order Control Barrier Functions (ZOCBFs)
+# Online Adaptation for Robust Control Barrier Functions
 
-This repository contains the implementation of **Zero-order Control Barrier Functions (ZOCBFs)** [arXiv link](https://arxiv.org/pdf/2411.17079)
+This repository contains the implementation of **Safe Navigation under State Uncertainty: Online Adaptation for Robust Control Barrier Functions** [arXiv link](https://arxiv.org/pdf/)
 
-**Zero-order Control Barrier Functions for Sampled-Data Systems with State and Input Dependent Safety Constraints**  
-Xiao Tan*, Ersin Daş*, Aaron D. Ames, Joel W. Burdick  
+Ersin Das, Rahal Nanayakkara, Xiao Tan, Ryan M. Bena, Joel W. Burdick, Paulo Tabuada, and Aaron D. Ames
 
 
 ## Prerequisites
@@ -14,3 +13,4 @@ Xiao Tan*, Ersin Daş*, Aaron D. Ames, Joel W. Burdick
   - `scipy`
   - `matplotlib`
   - `cvxpy`
+  - `casadi`
